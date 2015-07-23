@@ -51,36 +51,45 @@ $resolver = new ConditionalValueResolver(
     new CurrentTimeConditionChecker(new RealTimeClock(), new TimeConditionChecker())
 );
 
-// order of the items in the array does not matter, as they're ordered by priorities (unless it's the same)
+// order of the items in the array does not matter, as they're ordered by priorities
 $resolver->resolveValue(array(
+    // default price 20 EUR
     (new ConditionalValue())->setTimeCondition(
-        (new TimeCondition())    // default price 20 EUR
+        (new TimeCondition())
     )->setValue('20 EUR'),
+    // from 16:00 price is 30 EUR
     (new ConditionalValue())->setTimeCondition(
-        (new TimeCondition())->setFromTime(16 * 3600)   // from 16:00 price is 30 EUR
+        (new TimeCondition())->setFromTime(16 * 3600)   
     )->setValue('30 EUR'),
+    // 17:00 - 18:00 we have a happy hour
     (new ConditionalValue())->setTimeCondition(
-        (new TimeCondition())->setFromTime(17 * 3600)->setUntilTime(18 * 3600) // 17:00 - 18:00 we have a happy hour
+        (new TimeCondition())->setFromTime(17 * 3600)->setUntilTime(18 * 3600) 
     )->setValue('15 EUR'),
+    // 23:00 - 03:00 price is bigger
     (new ConditionalValue())->setTimeCondition(
-        (new TimeCondition())->setFromTime(23 * 3600)->setUntilTime(03 * 3600) // 23:00 - 03:00 price is bigger
+        (new TimeCondition())->setFromTime(23 * 3600)->setUntilTime(03 * 3600) 
     )->setValue('40 EUR'),
+    // price is 50 EUR on Sundays. This wins over all above rules
     (new ConditionalValue())->setTimeCondition(
-        (new TimeCondition())->setWeekday(0) // price is 50 EUR on Sundays. This wins over all above rules
+        (new TimeCondition())->setWeekday(0) 
     )->setValue('50 EUR'),
+    // this overwrites price from 20:00 until 00:00
     (new ConditionalValue())->setTimeCondition(
-        (new TimeCondition())->setWeekday(0)->setFromTime(20 * 3600) // this overwrites price from 20:00 until 00:00
+        (new TimeCondition())->setWeekday(0)->setFromTime(20 * 3600) 
     )->setValue('30 EUR'),
+    // first day on every month - cheap one. Wins over all above
     (new ConditionalValue())->setTimeCondition(
-        (new TimeCondition())->setDay(1) // first day on every month - cheap one. Wins over all above
+        (new TimeCondition())->setDay(1) 
     )->setValue('10 EUR'),
+    // day of New Year is special
     (new ConditionalValue())->setTimeCondition(
-        (new TimeCondition())->setDay(1)->setMonth(1) // day of New Year is special
+        (new TimeCondition())->setDay(1)->setMonth(1) 
     )->setValue('100 EUR'),
+    // Easter etc.
     (new ConditionalValue())->setTimeCondition(
-        (new TimeCondition())->setDay(5)->setMonth(4)->setYear(2015) // Easter etc.
+        (new TimeCondition())->setDay(5)->setMonth(4)->setYear(2015) 
     )->setValue('50 EUR'),
-));  
+));
 ```
 
 ## Installing
