@@ -101,6 +101,7 @@ composer require maba/clock
 ## Running tests
 
 [![Travis status](https://travis-ci.org/mariusbalcytis/clock.svg?branch=master)](https://travis-ci.org/mariusbalcytis/clock)
+[![Coverage Status](https://coveralls.io/repos/mariusbalcytis/clock/badge.svg?branch=master&service=github)](https://coveralls.io/github/mariusbalcytis/clock?branch=master)
 
 ```
 composer install
