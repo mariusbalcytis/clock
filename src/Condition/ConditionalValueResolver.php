@@ -24,10 +24,20 @@ class ConditionalValueResolver
     public function resolveValue(array $conditionalValues, $default = null)
     {
         $priorityResolver = $this->conditionPriorityResolver;
-        usort($conditionalValues, function(ConditionalValue $a, ConditionalValue $b) use ($priorityResolver) {
+
+        $order = new \SplObjectStorage();
+        $i = 0;
+        foreach ($conditionalValues as $value) {
+            $order->attach($value, $i++);
+        }
+
+        usort($conditionalValues, function(ConditionalValue $a, ConditionalValue $b) use ($priorityResolver, $order) {
             $r = $priorityResolver->getConditionPriority($a->getTimeCondition());
             $r -= $priorityResolver->getConditionPriority($b->getTimeCondition());
 
+            if ($r === 0) {
+                return $order->offsetGet($a) - $order->offsetGet($b);
+            }
             return -$r; // negate result as we need from biggest to smallest
         });
 

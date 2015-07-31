@@ -79,6 +79,13 @@ class ConditionalValueResolverTest extends \PHPUnit_Framework_TestCase
                 $this->buildConditionalValue('b', 1, true),
                 $this->buildConditionalValue('c', 2, true),
             ), 'default'),
+            'gives first matching if priority is the same #2' => array('c', array(
+                $this->buildConditionalValue('a', 1, false),
+                $this->buildConditionalValue('b', 2, false),
+                $this->buildConditionalValue('c', 3, true),
+                $this->buildConditionalValue('d', 3, true),
+                $this->buildConditionalValue('e', 3, true),
+            ), 'default'),
             'gives default on no conditions' => array('default', array(), 'default'),
             'gives default if none matches' => array('default', array(
                 $this->buildConditionalValue('a', 2, false),
